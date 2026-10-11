@@ -1,0 +1,9 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.DS_Store
+# 86 MB raw file; the compact parsed version (data/yield_processed.csv.gz) is committed
+data/yield_raw.csv
+data/yield_raw.csv.gz
+models/metrics_fast.json

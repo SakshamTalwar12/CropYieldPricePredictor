@@ -1,0 +1,2 @@
+# Optional: only needed to re-download the Hugging Face crop-yield dataset
+datasets>=2.20

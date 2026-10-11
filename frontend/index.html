@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Crop Yield &amp; Price Cascade</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232f6b3f'/%3E%3Cpath d='M16 26V12M16 16c-4 0-6-2-6-6 4 0 6 2 6 6zm0 3c4 0 6-2 6-6-4 0-6 2-6 6z' stroke='%23fff' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <h1>Crop Yield <span>→</span> Mandi Price</h1>
+    <p class="sub">Cascaded ML framework: a yield model feeds its prediction into a price model.</p>
+    <ol class="flow" aria-label="Pipeline">
+      <li>Weather &amp; soil input</li><li class="a">Yield · Random Forest</li>
+      <li class="a">Predicted yield</li><li class="a">Price · XGBoost / LSTM</li><li class="a">Dashboard</li>
+    </ol>
+  </div>
+</header>
+
+<main class="wrap">
+  <nav class="tabs" role="tablist">
+    <button class="tab on" data-tab="forecast" role="tab">Forecast</button>
+    <button class="tab" data-tab="evidence" role="tab">Model evidence</button>
+  </nav>
+
+  <section id="tab-forecast" class="grid">
+    <form id="form" class="card form" autocomplete="off">
+      <h2>Inputs</h2>
+      <div class="row">
+        <label>State<select id="state" required></select></label>
+        <label>District<select id="district" required></select></label>
+      </div>
+      <div class="row">
+        <label>Crop<select id="crop" required></select></label>
+        <label>Season<input id="season" readonly></label>
+      </div>
+      <div class="row">
+        <label>Year<input id="year" type="number" min="2000" max="2040" value="2017" required></label>
+        <label>Price model
+          <select id="price_model"></select>
+        </label>
+      </div>
+
+      <h3>Weather <small id="defnote"></small></h3>
+      <div class="row">
+        <label>Rainfall (mm)<input id="rainfall_mm" type="number" step="any" min="0" max="6000" required></label>
+        <label>Avg temp (°C)<input id="temp_avg_c" type="number" step="any" min="-10" max="45" required></label>
+      </div>
+      <div class="row">
+        <label>Min temp (°C)<input id="temp_min_c" type="number" step="any" min="-40" max="40" required></label>
+        <label>Max temp (°C)<input id="temp_max_c" type="number" step="any" min="0" max="60" required></label>
+      </div>
+      <h3>Soil &amp; area</h3>
+      <div class="row">
+        <label>Soil pH<input id="soil_ph" type="number" step="0.1" min="3" max="10" required></label>
+        <label>Organic carbon (g/kg)<input id="organic_carbon_gkg" type="number" step="any" min="0" max="100" required></label>
+      </div>
+      <div class="row">
+        <label>Texture
+          <select id="soil_texture"><option>loamy</option><option>silty</option><option>clay-heavy</option></select>
+        </label>
+        <label>Area (thousand ha)<input id="area_kha" type="number" step="any" min="0" max="3000" required></label>
+      </div>
+      <div class="actions">
+        <button type="submit" class="primary" id="go">Run cascade</button>
+        <button type="button" id="reset" class="ghost">Reset to district average</button>
+      </div>
+      <p id="err" class="err" role="alert" hidden></p>
+    </form>
+
+    <div class="results">
+      <div id="empty" class="card empty">Choose a state, district and crop, then run the cascade.</div>
+      <div id="out" hidden>
+        <div class="kpis">
+          <div class="card kpi"><span class="lbl">Predicted yield</span>
+            <b id="k-yield">–</b><span class="unit">quintal / ha</span><span class="rng" id="k-yield-r"></span></div>
+          <div class="card kpi"><span class="lbl">Predicted mandi price</span>
+            <b id="k-price">–</b><span class="unit">₹ / quintal</span><span class="rng" id="k-price-r"></span></div>
+          <div class="card kpi"><span class="lbl">Revenue estimate</span>
+            <b id="k-rev">–</b><span class="unit">₹ / ha</span><span class="rng">yield × price</span></div>
+          <div class="card kpi"><span class="lbl">Yield link effect on price</span>
+            <b id="k-link">–</b><span class="unit">₹ / quintal</span><span class="rng" id="k-link-r"></span></div>
+        </div>
+        <ul id="warn" class="warn"></ul>
+        <div class="charts">
+          <div class="card"><h3>District yield &amp; rainfall history</h3><div class="cv"><canvas id="c-hist"></canvas></div><p class="none" id="n-hist" hidden>No history for this district–crop pair.</p></div>
+          <div class="card"><h3>Price: history &amp; model trend</h3><div class="cv"><canvas id="c-price"></canvas></div></div>
+          <div class="card"><h3>Price vs. predicted yield (cascade link)</h3><div class="cv"><canvas id="c-link"></canvas></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="tab-evidence" hidden>
+    <div id="ev-msg" class="card"></div>
+    <div id="ev"></div>
+  </section>
+</main>
+
+<footer class="wrap foot">
+  Prices are synthetic (paper §IV-B) and yields come from a historical district dataset; forecasts show the
+  architecture, not decision-grade accuracy.
+</footer>
+<script src="/static/vendor/chart.umd.js"></script>
+<script src="/static/js/app.js"></script>
+</body>
+</html>

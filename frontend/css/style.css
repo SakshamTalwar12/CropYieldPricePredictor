@@ -1,0 +1,56 @@
+:root{
+  --bg:#f6f4ec; --card:#ffffff; --ink:#1d2a22; --mute:#5d6b62; --line:#dfdccd;
+  --green:#2f6b3f; --green-d:#1f4a2c; --amber:#b7791f; --red:#a23b2a; --blue:#2b6a8f;
+  --chip:#e9efe3;
+}
+@media (prefers-color-scheme:dark){
+  :root{--bg:#141a16; --card:#1c241f; --ink:#e8efe9; --mute:#9aa99f; --line:#2c372f;
+        --green:#6fbf84; --green-d:#a6dfb5; --amber:#e0a84a; --red:#e07b67; --blue:#6db3d9; --chip:#243029}
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:1240px;margin:0 auto;padding:0 20px}
+.top{background:linear-gradient(135deg,#1f4a2c,#2f6b3f);color:#fff;padding:26px 0 18px}
+.top h1{margin:0;font-size:28px;letter-spacing:-.3px}.top h1 span{opacity:.6}
+.sub{margin:4px 0 14px;opacity:.85}
+.flow{display:flex;flex-wrap:wrap;gap:6px;list-style:none;margin:0;padding:0;font-size:12.5px}
+.flow li{background:rgba(255,255,255,.14);padding:4px 10px;border-radius:999px}
+.flow li.a::before{content:"→ ";opacity:.7}
+.tabs{display:flex;gap:4px;margin:18px 0 14px;border-bottom:1px solid var(--line)}
+.tab{background:none;border:0;padding:9px 16px;font:inherit;color:var(--mute);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-1px}
+.tab.on{color:var(--green-d);border-color:var(--green);font-weight:600}
+.grid{display:grid;grid-template-columns:340px 1fr;gap:18px;align-items:start}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+.card h2,.card h3{margin:0 0 10px;font-size:15px}
+.form h3{margin:14px 0 8px;font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--mute)}
+.form h3 small{text-transform:none;letter-spacing:0;font-weight:400}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+label{display:flex;flex-direction:column;font-size:12.5px;color:var(--mute);gap:3px}
+input,select{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:7px 9px;min-width:0;width:100%}
+input[readonly]{opacity:.75}
+input:focus,select:focus{outline:2px solid var(--green);outline-offset:-1px}
+.actions{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+button.primary{background:var(--green);color:#fff;border:0;border-radius:8px;padding:10px 16px;font:inherit;font-weight:600;cursor:pointer}
+button.primary:hover{background:var(--green-d)} button.primary:disabled{opacity:.6;cursor:wait}
+button.ghost{background:none;border:1px solid var(--line);color:var(--ink);border-radius:8px;padding:10px 12px;font:inherit;cursor:pointer}
+.err{color:var(--red);margin:10px 0 0}
+.empty{color:var(--mute);text-align:center;padding:60px 20px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+.kpi{display:flex;flex-direction:column;gap:2px}
+.kpi .lbl{font-size:12px;color:var(--mute);text-transform:uppercase;letter-spacing:.05em}
+.kpi b{font-size:30px;letter-spacing:-.5px;color:var(--green-d)}
+.kpi .unit{font-size:12.5px;color:var(--mute)} .kpi .rng{font-size:12px;color:var(--mute)}
+.warn{margin:14px 0;padding:0;list-style:none;display:grid;gap:6px}
+.warn li{background:var(--chip);border-left:3px solid var(--amber);padding:7px 11px;border-radius:6px;font-size:13px}
+.charts{display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:14px}
+.cv{position:relative;height:260px}
+.none{color:var(--mute);font-size:13px}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{text-align:right;padding:6px 8px;border-bottom:1px solid var(--line)}
+th:first-child,td:first-child{text-align:left} th{color:var(--mute);font-weight:600}
+tr.best td{font-weight:700;color:var(--green-d)}
+.ev-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(430px,1fr));gap:14px;margin-bottom:14px}
+.ev-grid .card p{margin:8px 0 0;color:var(--mute);font-size:12.5px}
+.foot{color:var(--mute);font-size:12.5px;padding:24px 20px 40px}
+@media(max-width:900px){.grid{grid-template-columns:1fr}.charts{grid-template-columns:1fr}.ev-grid{grid-template-columns:1fr}}
+[hidden]{display:none!important}

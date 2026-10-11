@@ -1,0 +1,28 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run API + dashboard (http://localhost:8000)",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "uvicorn",
+      "args": ["backend.app.main:app", "--reload", "--port", "8000"],
+      "cwd": "${workspaceFolder}",
+      "justMyCode": true
+    },
+    {
+      "name": "Train final cascade",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "backend.ml.train_cascade",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "Evaluate (paper protocol)",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "backend.ml.evaluate_cascade",
+      "cwd": "${workspaceFolder}"
+    }
+  ]
+}

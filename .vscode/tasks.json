@@ -1,0 +1,12 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {"label": "Install deps", "type": "shell", "command": "python -m pip install -r requirements.txt"},
+    {"label": "Rebuild data (parse + price dataset)", "type": "shell",
+     "command": "python -m backend.ml.prepare_yield_data && python -m backend.ml.build_price_dataset"},
+    {"label": "Train models", "type": "shell", "command": "python -m backend.ml.train_cascade"},
+    {"label": "Evaluate (writes models/metrics.json)", "type": "shell", "command": "python -m backend.ml.evaluate_cascade"},
+    {"label": "Run tests", "type": "shell", "command": "python -m pytest -q"},
+    {"label": "Start server", "type": "shell", "command": "python -m uvicorn backend.app.main:app --reload --port 8000", "isBackground": true}
+  ]
+}
